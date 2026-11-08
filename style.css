@@ -460,20 +460,19 @@ body {
   font-weight: 500;
   color: #ffd2df;
   letter-spacing: 1px;
-
+  line-height: 1.05;
   text-shadow:
     0 0 10px rgba(255, 151, 184, .55),
     0 0 28px rgba(255, 86, 139, .32),
     0 4px 20px rgba(0, 0, 0, .45);
-
-  animation: darkNameReveal .9s cubic-bezier(.2,.8,.2,1) forwards;
-
   position: relative;
   left: auto;
   top: auto;
-  width: 100%;
+  width: auto;
   margin: 0;
   text-align: center;
+  transform-origin: center center;
+  animation: darkNameReveal .9s cubic-bezier(.2,.8,.2,1) forwards;
 }
 
 .scene.dark-mode .subtitle {
@@ -515,7 +514,6 @@ body {
     transform: scale(.88);
     filter: blur(6px);
   }
-
   100% {
     opacity: 1;
     transform: scale(1);
@@ -612,21 +610,39 @@ body {
     top: 50%;
   }
 }
-/* DARK MODE - NAMA AYUYU BENAR-BENAR DI TENGAH */
+
+
+/* FINAL MOBILE CENTER FIX */
 .scene.dark-mode .center-content {
   position: absolute;
   left: 50%;
   top: 50%;
   width: 100%;
+  height: auto;
   margin: 0;
-  transform: translate(-50%, -50%);
+  padding: 0;
+  transform: translate3d(-50%, -50%, 0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 }
 
-.scene.dark-mode .name {
-  display: block;
-  width: 100%;
-  margin: 0;
-  padding: 0;
+.scene.dark-mode .center-content .small-heart,
+.scene.dark-mode .center-content .name,
+.scene.dark-mode .center-content .subtitle {
+  position: relative;
+  left: auto;
+  right: auto;
+  top: auto;
+  margin-left: 0;
+  margin-right: 0;
   text-align: center;
+}
+
+.scene.dark-mode .center-content .name {
+  width: max-content;
+  max-width: 100%;
+  transform-origin: center center;
 }
