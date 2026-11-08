@@ -187,26 +187,37 @@ function createBurst() {
 
     scene.appendChild(heart);
 
-    heart.animate(
-      [
+    // Web Animations API fallback untuk browser HP yang tidak mendukungnya.
+    if (typeof heart.animate === "function") {
+      const animation = heart.animate(
+        [
+          {
+            transform: "translate(-50%, -50%) scale(.2) rotate(0deg)",
+            opacity: 0
+          },
+          {
+            transform: `translate(calc(-50% + ${x * .55}px), calc(-50% + ${y * .55}px)) scale(1) rotate(120deg)`,
+            opacity: 1
+          },
+          {
+            transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(.35) rotate(260deg)`,
+            opacity: 0
+          }
+        ],
         {
-          transform: "translate(-50%, -50%) scale(.2) rotate(0deg)",
-          opacity: 0
-        },
-        {
-          transform: `translate(calc(-50% + ${x * .55}px), calc(-50% + ${y * .55}px)) scale(1) rotate(120deg)`,
-          opacity: 1
-        },
-        {
-          transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(.35) rotate(260deg)`,
-          opacity: 0
+          duration,
+          easing: "cubic-bezier(.2,.75,.25,1)",
+          fill: "forwards"
         }
-      ],
-      {
-        duration,
-        easing: "cubic-bezier(.2,.75,.25,1)",
-        fill: "forwards"
-      }
-    ).finished.then(() => heart.remove());
+      );
+      animation.finished.then(() => heart.remove()).catch(() => heart.remove());
+    } else {
+      heart.style.transition = `transform ${duration}ms cubic-bezier(.2,.75,.25,1), opacity ${duration}ms ease`;
+      requestAnimationFrame(() => {
+        heart.style.opacity = "1";
+        heart.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(.35) rotate(260deg)`;
+      });
+      setTimeout(() => heart.remove(), duration + 100);
+    }
   }
 }

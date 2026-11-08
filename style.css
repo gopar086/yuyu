@@ -30,6 +30,7 @@ body {
   inset: 0;
   width: 100vw;
   height: 100dvh;
+  min-height: 100vh;
   overflow: hidden;
   isolation: isolate;
   background:
@@ -415,17 +416,6 @@ body {
   }
 }
 
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: .01ms !important;
-    animation-iteration-count: 1 !important;
-    scroll-behavior: auto !important;
-  }
-}
-
 @media (max-width: 600px) {
   .name {
     font-size: 17vw;
@@ -465,28 +455,22 @@ body {
 }
 
 .scene.dark-mode .name {
+  font-family: "Brush Script MT", "Segoe Script", "Snell Roundhand", cursive;
+  font-style: italic;
+  font-weight: 500;
+  color: #ffd2df;
+  letter-spacing: 1px;
+  text-shadow:
+    0 0 10px rgba(255, 151, 184, .55),
+    0 0 28px rgba(255, 86, 139, .32),
+    0 4px 20px rgba(0, 0, 0, .45);
+  animation: darkNameReveal .9s cubic-bezier(.2,.8,.2,1) forwards;
   position: relative;
   left: auto;
   top: auto;
   width: 100%;
   margin: 0 auto;
-
-  font-family: "Brush Script MT", "Segoe Script", "Snell Roundhand", cursive;
-  font-style: italic;
-  font-weight: 500;
-  font-size: clamp(60px, 18vw, 125px);
-
-  color: #ffd2df;
-  letter-spacing: 1px;
-
   text-align: center;
-
-  text-shadow:
-    0 0 10px rgba(255, 151, 184, .55),
-    0 0 28px rgba(255, 86, 139, .32),
-    0 4px 20px rgba(0, 0, 0, .45);
-
-  animation: darkNameCenter .9s cubic-bezier(.2,.8,.2,1) forwards;
 }
 
 .scene.dark-mode .subtitle {
@@ -591,26 +575,36 @@ body {
       scale(1.05);
   }
 }
-/* Posisi nama dark mode benar-benar di tengah */
-.scene.dark-mode .center-content {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 100%;
-  transform: translate(-50%, -50%);
-  text-align: center;
+
+
+/* Mobile / GitHub Pages compatibility */
+@supports not (height: 100dvh) {
+  .scene { height: 100vh; }
 }
 
-@keyframes darkNameCenter {
-  0% {
-    opacity: 0;
-    transform: scale(.9);
-    filter: blur(6px);
+@media (max-width: 600px) {
+  .scene {
+    min-height: 100vh;
+    min-height: 100svh;
   }
 
-  100% {
-    opacity: 1;
-    transform: scale(1);
-    filter: blur(0);
+  .photo-heart {
+    animation-play-state: running;
+  }
+
+  .star,
+  .glow,
+  .petal,
+  .dark-bokeh,
+  .dark-heart-particle {
+    animation-play-state: running;
+  }
+
+  .center-content {
+    top: 50%;
+  }
+
+  .scene.dark-mode .center-content {
+    top: 50%;
   }
 }
